@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeziBul - Seyahat Önerileri</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        /* ===== NAVİGASYON ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: linear-gradient(135deg, #0f4c75, #1b262c);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            height: 64px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .3);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #bbe1fa;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .nav-logo span {
+            font-size: 1.6rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            color: #dbe9f4;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: .25s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(255, 255, 255, .15);
+            color: #fff;
+        }
+
+        .nav-search {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-search input {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            width: 220px;
+            outline: none;
+            font-size: .9rem;
+            background: rgba(255, 255, 255, .9);
+        }
+
+        .nav-search button {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: .85rem;
+            transition: .2s;
+        }
+
+        .btn-search {
+            background: #3282b8;
+            color: #fff;
+        }
+
+        .btn-search:hover {
+            background: #0f4c75;
+        }
+
+        .btn-reset {
+            background: #e8e8e8;
+            color: #444;
+        }
+
+        .btn-reset:hover {
+            background: #ccc;
+        }
+
+        /* ===== SAYFALAR ===== */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 64px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* ===== ANA SAYFA ===== */
+        #home {
+            background: linear-gradient(rgba(15, 76, 117, .55), rgba(27, 38, 44, .7)),
+                url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        #home h1 {
+            font-size: 3.2rem;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, .4);
+        }
+
+        #home p.subtitle {
+            font-size: 1.25rem;
+            max-width: 600px;
+            line-height: 1.7;
+            opacity: .92;
+            margin-bottom: 30px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: .25s;
+            backdrop-filter: blur(4px);
+        }
+
+        .social-icons a:hover {
+            background: #3282b8;
+            transform: scale(1.1);
+        }
+
+        /* ===== SONUÇLAR ===== */
+        #results-section {
+            max-width: 960px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        #results-section h2 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #0f4c75;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .result-card {
+            border-radius: 14px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
+            transition: .3s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .15);
+        }
+
+        .result-card img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+        }
+
+        .result-card .card-body {
+            padding: 18px;
+        }
+
+        .result-card h3 {
+            font-size: 1.15rem;
+            color: #1b262c;
+            margin-bottom: 8px;
+        }
+
+        .result-card p {
+            font-size: .9rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .result-card .time-info {
+            margin-top: 10px;
+            font-size: .8rem;
+            color: #3282b8;
+            font-weight: 600;
+        }
+
+        /* ===== HAKKIMIZDA ===== */
+        #about {
+            background: #f5f9fc;
+        }
+
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .about-container h1 {
+            font-size: 2.2rem;
+            color: #0f4c75;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #444;
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .team-title {
+            font-size: 1.6rem;
+            color: #0f4c75;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .team-card {
+            text-align: center;
+            background: #fff;
+            padding: 30px 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .07);
+        }
+
+        .team-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .team-card h3 {
+            font-size: 1.1rem;
+            color: #1b262c;
+        }
+
+        .team-card p {
+            font-size: .85rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* ===== İLETİŞİM ===== */
+        #contact {
+            background: #f0f4f8;
+        }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .contact-container h1 {
+            font-size: 2.2rem;
+            color: #0f4c75;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .contact-container .sub {
+            text-align: center;
+            color: #666;
+            margin-bottom: 36px;
+        }
+
+        .contact-form {
+            background: #fff;
+            padding: 36px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+            font-size: .95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #dde4ea;
+            border-radius: 10px;
+            font-size: .95rem;
+            outline: none;
+            transition: .2s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #3282b8;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #3282b8, #0f4c75);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .btn-submit:hover {
+            opacity: .9;
+            transform: translateY(-1px);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #1b262c;
+            color: #aaa;
+            text-align: center;
+            padding: 20px;
+            font-size: .85rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVİGASYON ÇUBUĞU -->
+    <nav>
+        <div class="nav-logo" onclick="showPage('home')">
+            <span>✈</span> GeziBul
+        </div>
+        <div class="nav-links">
+            <a href="#" onclick="showPage('home')" class="active" id="nav-home">Ana Sayfa</a>
+            <a href="#" onclick="showPage('about')" id="nav-about">Hakkımızda</a>
+            <a href="#" onclick="showPage('contact')" id="nav-contact">İletişim</a>
+        </div>
+        <div class="nav-search" id="searchBar">
+            <input type="text" id="searchInput" placeholder="Plaj, tapınak, ülke ara..." onkeydown="if(event.key==='Enter')search()">
+            <button class="btn-search" onclick="search()">Ara</button>
+            <button class="btn-reset" onclick="resetSearch()">Sıfırla</button>
+        </div>
+    </nav>
+
+    <!-- ANA SAYFA -->
+    <div class="page active" id="home">
+        <h1>Hayalinizdeki Yeri Keşfedin</h1>
+        <p class="subtitle">
+            Dünyanın en güzel plajları, tarihi tapınakları ve büyüleyici ülkeleri
+            hakkında size özel öneriler sunan seyahat rehberiniz.
+        </p>
+        <div class="social-icons">
+            <a href="#" title="Facebook">f</a>
+            <a href="#" title="Twitter">𝕏</a>
+            <a href="#" title="Instagram">📷</a>
+            <a href="#" title="YouTube">▶</a>
+        </div>
+
+        <!-- Arama Sonuçları -->
+        <div id="results-section" style="display:none; width:100%; padding: 40px 20px;">
+            <h2 id="results-title"></h2>
+            <div class="results-grid" id="resultsGrid"></div>
+        </div>
+    </div>
+
+    <!-- HAKKIMIZDA SAYFASI -->
+    <div class="page" id="about">
+        <div class="about-container">
+            <h1>Hakkımızda</h1>
+            <p class="about-text">
+                GeziBul, 2024 yılında seyahat tutkunları tarafından kurulmuş bir platformdur.
+                Amacımız, dünyanın dört bir yanındaki muhteşem destinasyonları keşfetmenize yardımcı olmak
+                ve size unutulmaz seyahat deneyimleri sunmaktır.
+            </p>
+            <h2 class="team-title">Ekibimiz</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar" style="background:linear-gradient(135deg,#3282b8,#0f4c75)">AY</div>
+                    <h3>Ayşe Yılmaz</h3>
+                    <p>Kurucu &amp; CEO</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar" style="background:linear-gradient(135deg,#e77f67,#cf6a87)">MK</div>
+                    <h3>Mehmet Kaya</h3>
+                    <p>Baş Geliştirici</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar" style="background:linear-gradient(135deg,#78e08f,#38ada9)">ZD</div>
+                    <h3>Zeynep Demir</h3>
+                    <p>İçerik Yöneticisi</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar" style="background:linear-gradient(135deg,#f8a5c2,#e66767)">CD</div>
+                    <h3>Can Doğan</h3>
+                    <p>UI/UX Tasarımcı</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- İLETİŞİM SAYFASI -->
+    <div class="page" id="contact">
+        <div class="contact-container">
+            <h1>İletişim</h1>
+            <p class="sub">Bizimle iletişime geçmek için aşağıdaki formu doldurun.</p>
+            <div class="contact-form">
+                <div class="form-group">
+                    <label>İsim</label>
+                    <input type="text" id="contactName" placeholder="Adınız Soyadınız">
+                </div>
+                <div class="form-group">
+                    <label>E-posta</label>
+                    <input type="email" id="contactEmail" placeholder="ornek@mail.com">
+                </div>
+                <div class="form-group">
+                    <label>Mesajınız</label>
+                    <textarea id="contactMessage" placeholder="Mesajınızı buraya yazın..."></textarea>
+                </div>
+                <button class="btn-submit" onclick="submitForm()">Gönder</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>© 2024 GeziBul — Tüm hakları saklıdır.</footer>
+
+    <!-- AYRI JS DOSYASI -->
+    <script src="travel_recommendation.js"></script>
+</body>
+
+</html>
