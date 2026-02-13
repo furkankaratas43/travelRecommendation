@@ -7,10 +7,10 @@ function fetchTravelData() {
     .then(response => response.json())
     .then(data => {
       travelData = data;
-      console.log('Travel data başarıyla yüklendi:', travelData);
+      console.log('Travel data successfully uploaded:', travelData);
     })
     .catch(error => {
-      console.error('Veri yüklenirken hata oluştu:', error);
+      console.error('An error occurred while loading data:', error);
     });
 }
 
@@ -50,7 +50,7 @@ function search() {
   let title = '';
 
   if (!travelData) {
-    console.error('Veri henüz yüklenmedi!');
+    console.error('The data has not been loaded yet!');
     return;
   }
 
@@ -61,7 +61,7 @@ function search() {
       imageUrl: item.imageUrl,
       description: item.description
     }));
-    title = '🏖️ Plaj Önerileri';
+    title = '🏖️ Beach Recommendations';
   }
   // ----- TAPINAK anahtar kelimeleri -----
   else if (['tapınak', 'tapınaklar', 'temple', 'temples'].includes(keyword)) {
@@ -70,7 +70,7 @@ function search() {
       imageUrl: item.imageUrl,
       description: item.description
     }));
-    title = '🛕 Tapınak Önerileri';
+    title = '🛕 Temples Recommendations';
   }
   // ----- ÜLKE anahtar kelimeleri -----
   else if (['ülke', 'ülkeler', 'country', 'countries'].includes(keyword)) {
@@ -86,7 +86,7 @@ function search() {
         });
       });
     });
-    title = '🌍 Ülke Önerileri';
+    title = '🌍 Country Recommendations';
   }
   // ----- BELİRLİ ÜLKE ADI ARAMA (ör: "australia", "japan", "brazil") -----
   else {
@@ -101,7 +101,7 @@ function search() {
         description: city.description,
         country: matchedCountry.name
       }));
-      title = `🌍 ${matchedCountry.name} Önerileri`;
+      title = `🌍 ${matchedCountry.name} Recommendations`;
     } else {
       // Genel arama: tüm verilerde ara
       const allItems = [
@@ -125,7 +125,7 @@ function search() {
         item.name.toLowerCase().includes(keyword) ||
         item.description.toLowerCase().includes(keyword)
       );
-      title = `"${raw}" için sonuçlar`;
+      title = `"${raw}" for results`;
     }
   }
 
@@ -140,8 +140,8 @@ function displayResults(results, title) {
 
   // Sonuç yoksa bilgi mesajı göster
   if (results.length === 0) {
-    titleEl.textContent = 'Sonuç bulunamadı';
-    grid.innerHTML = '<p style="color:#888;">Lütfen farklı bir anahtar kelime deneyin: plaj, tapınak veya ülke.</p>';
+    titleEl.textContent = 'No results found';
+    grid.innerHTML = '<p style="color:#888;">Please try a different keyword: beach, temple, or country.</p>';
     section.style.display = 'block';
     return;
   }
@@ -162,7 +162,7 @@ function displayResults(results, title) {
         second: 'numeric'
       };
       const localTime = new Date().toLocaleTimeString('en-US', opts);
-      timeHTML = `<div class="time-info">🕐 Yerel saat: ${localTime}</div>`;
+      timeHTML = `<div class="time-info">🕐 Local Time: ${localTime}</div>`;
     }
 
     // Kart oluştur
@@ -217,11 +217,11 @@ function submitForm() {
   const msg = document.getElementById('contactMessage').value.trim();
 
   if (!name || !email || !msg) {
-    alert('Lütfen tüm alanları doldurun.');
+    alert('Please fill in all fields.');
     return;
   }
 
-  alert(`Teşekkürler ${name}! Mesajınız başarıyla gönderildi.`);
+  alert(`Thank you, ${name}! Your message has been successfully sent.`);
   document.getElementById('contactName').value = '';
   document.getElementById('contactEmail').value = '';
   document.getElementById('contactMessage').value = '';
