@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeziBul - Seyahat Önerileri</title>
+    <title>GeziBul - Travel Recommendations</title>
     <style>
         * {
             margin: 0;
@@ -120,7 +120,7 @@
             display: block;
         }
 
-        /* ===== ANA SAYFA ===== */
+        /* ===== Home ===== */
         #home {
             background: linear-gradient(rgba(15, 76, 117, .55), rgba(27, 38, 44, .7)),
                 url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600') center/cover no-repeat;
@@ -410,18 +410,18 @@
             <span>✈</span> GeziBul
         </div>
         <div class="nav-links">
-            <a href="#" onclick="showPage('home')" class="active" id="nav-home">Ana Sayfa</a>
-            <a href="#" onclick="showPage('about')" id="nav-about">Hakkımızda</a>
-            <a href="#" onclick="showPage('contact')" id="nav-contact">İletişim</a>
+            <a href="#" onclick="showPage('home')" class="active" id="nav-home">Home</a>
+            <a href="#" onclick="showPage('about')" id="nav-about">About</a>
+            <a href="#" onclick="showPage('contact')" id="nav-contact">Contact</a>
         </div>
         <div class="nav-search" id="searchBar">
-            <input type="text" id="searchInput" placeholder="Plaj, tapınak, ülke ara..." onkeydown="if(event.key==='Enter')search()">
-            <button class="btn-search" onclick="search()">Ara</button>
-            <button class="btn-reset" onclick="resetSearch()">Sıfırla</button>
+            <input type="text" id="searchInput" placeholder="Plaj, tapınak, ülke Search..." onkeydown="if(event.key==='Enter')search()">
+            <button class="btn-search" onclick="search()">Search</button>
+            <button class="btn-reset" onclick="resetSearch()">Reset</button>
         </div>
     </nav>
 
-    <!-- ANA SAYFA -->
+    <!-- Home -->
     <div class="page active" id="home">
         <h1>Hayalinizdeki Yeri Keşfedin</h1>
         <p class="subtitle">
@@ -435,7 +435,7 @@
             <a href="#" title="YouTube">▶</a>
         </div>
 
-        <!-- Arama Sonuçları -->
+        <!-- Searchma Sonuçları -->
         <div id="results-section" style="display:none; width:100%; padding: 40px 20px;">
             <h2 id="results-title"></h2>
             <div class="results-grid" id="resultsGrid"></div>
@@ -445,33 +445,33 @@
     <!-- HAKKIMIZDA SAYFASI -->
     <div class="page" id="about">
         <div class="about-container">
-            <h1>Hakkımızda</h1>
+            <h1>About</h1>
             <p class="about-text">
-                GeziBul, 2024 yılında seyahat tutkunları tarafından kurulmuş bir platformdur.
-                Amacımız, dünyanın dört bir yanındaki muhteşem destinasyonları keşfetmenize yardımcı olmak
-                ve size unutulmaz seyahat deneyimleri sunmaktır.
+                GeziBul is a platform founded in 2024 by travel enthusiasts.
+                Our goal is to help you discover amazing destinations around the world
+                and provide you with unforgettable travel experiences.
             </p>
-            <h2 class="team-title">Ekibimiz</h2>
+            <h2 class="team-title">Teams</h2>
             <div class="team-grid">
                 <div class="team-card">
                     <div class="team-avatar" style="background:linear-gradient(135deg,#3282b8,#0f4c75)">AY</div>
                     <h3>Ayşe Yılmaz</h3>
-                    <p>Kurucu &amp; CEO</p>
+                    <p>Founder & CEO</p>
                 </div>
                 <div class="team-card">
                     <div class="team-avatar" style="background:linear-gradient(135deg,#e77f67,#cf6a87)">MK</div>
                     <h3>Mehmet Kaya</h3>
-                    <p>Baş Geliştirici</p>
+                    <p>Lead Developer</p>
                 </div>
                 <div class="team-card">
                     <div class="team-avatar" style="background:linear-gradient(135deg,#78e08f,#38ada9)">ZD</div>
                     <h3>Zeynep Demir</h3>
-                    <p>İçerik Yöneticisi</p>
+                    <p>Content Manager</p>
                 </div>
                 <div class="team-card">
                     <div class="team-avatar" style="background:linear-gradient(135deg,#f8a5c2,#e66767)">CD</div>
                     <h3>Can Doğan</h3>
-                    <p>UI/UX Tasarımcı</p>
+                    <p>UI/UX Designer</p>
                 </div>
             </div>
         </div>
@@ -480,27 +480,27 @@
     <!-- İLETİŞİM SAYFASI -->
     <div class="page" id="contact">
         <div class="contact-container">
-            <h1>İletişim</h1>
-            <p class="sub">Bizimle iletişime geçmek için aşağıdaki formu doldurun.</p>
+            <h1>Contact</h1>
+            <p class="sub">Please fill out the form below to contact us.</p>
             <div class="contact-form">
                 <div class="form-group">
-                    <label>İsim</label>
+                    <label>Name</label>
                     <input type="text" id="contactName" placeholder="Adınız Soyadınız">
                 </div>
                 <div class="form-group">
-                    <label>E-posta</label>
+                    <label>E-mail</label>
                     <input type="email" id="contactEmail" placeholder="ornek@mail.com">
                 </div>
                 <div class="form-group">
-                    <label>Mesajınız</label>
+                    <label>Message</label>
                     <textarea id="contactMessage" placeholder="Mesajınızı buraya yazın..."></textarea>
                 </div>
-                <button class="btn-submit" onclick="submitForm()">Gönder</button>
+                <button class="btn-submit" onclick="submitForm()">Send</button>
             </div>
         </div>
     </div>
 
-    <footer>© 2024 GeziBul — Tüm hakları saklıdır.</footer>
+    <footer>© 2026 GeziBul — All rights reserved.</footer>
 
     <!-- AYRI JS DOSYASI -->
     <script src="travel_recommendation.js"></script>
